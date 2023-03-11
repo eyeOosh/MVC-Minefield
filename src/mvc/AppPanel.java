@@ -1,6 +1,4 @@
-package minefield;
-
-import mvc.*;
+package mvc;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,22 +13,21 @@ import java.io.ObjectOutputStream;
 
 public class AppPanel extends JPanel implements ActionListener, PropertyChangeListener {
     private AppFactory factory;
-    private Model model = factory.makeModel();
-    private View view = factory.makeView();
-    private AppPanel.ControlPanel controls = new AppPanel.ControlPanel();
+    private Model model;
+    private View view;
+    public ControlPanel cp;
 
-    public AppPanel() {
+    public AppPanel(AppFactory fac) {
         this.setLayout(new GridLayout());
+        cp = new AppPanel.ControlPanel();
 
-        add(controls);
+        factory = fac;
+        model = factory.makeModel();
+        view = factory.makeView(model);
+        model.addPropertyChangeListener(this);
+
+        add(cp);
         add(view);
-        SafeFrame frame = new SafeFrame();
-        Container cp = frame.getContentPane();
-        cp.add(this);
-        frame.setJMenuBar(this.createMenuBar());
-        frame.setTitle(factory.getTitle());
-        frame.setSize(1000, 500);
-        frame.setVisible(true);
     }
 
     protected JMenuBar createMenuBar() {
@@ -44,151 +41,107 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
         return result;
     }
 
-
+    @Override
     public void actionPerformed(ActionEvent e) {
         String cmmd = e.getActionCommand();
-        System.out.println(cmmd);
-        try {
-            switch (cmmd) {
-                //File Functions
-                case "Save As": {
-                    String fName = Utilities.getFileName((String) null, false);
-                    model.setFileName(fName);
-                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
-                    os.writeObject(this.model);
-                    os.close();
-                    break;
-                }
-                case "Save": {
-                    if (model.getFileName()==null) {
+        System.out.println("AppPanel Received Command: " + cmmd);
+        Command cmdObject = factory.makeEditCommand(model, cmmd, null);
+        if (cmdObject == null) {
+            try {
+                switch (cmmd) {
+                    //File Functions
+                    case "Save As": {
                         String fName = Utilities.getFileName((String) null, false);
                         model.setFileName(fName);
+                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
+                        os.writeObject(this.model);
+                        os.close();
+                        break;
                     }
-                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(model.getFileName()));
-                    os.writeObject(this.model);
-                    os.close();
-                    break;
-                }
-                case "Open": {
-                    if (Utilities.confirm("Are you sure? Unsaved changes will be lost!")) {
-                        String fName = Utilities.getFileName((String) null, true);
-                        model.setFileName(fName);
-                        ObjectInputStream is = new ObjectInputStream(new FileInputStream(fName));
-                        model = (Model) is.readObject();
-                        view.setModel(model);
-                        is.close();
+                    case "Save": {
+                        if (model.getFileName() == null) {
+                            String fName = Utilities.getFileName((String) null, false);
+                            model.setFileName(fName);
+                        }
+                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(model.getFileName()));
+                        os.writeObject(this.model);
+                        os.close();
+                        break;
                     }
-                    break;
-                }
-
-                case "New": {
-                    if (Utilities.confirm("Are you sure? Unsaved changes will be lost!")) {
-                        model = factory.makeModel();
-                        view.setModel(model);
+                    case "Open": {
+                        if (Utilities.confirm("Are you sure? Unsaved changes will be lost!")) {
+                            String fName = Utilities.getFileName((String) null, true);
+                            model.setFileName(fName);
+                            ObjectInputStream is = new ObjectInputStream(new FileInputStream(fName));
+                            model.removePropertyChangeListener(this);
+                            model = (Model) is.readObject();
+                            model.initSupport();
+                            model.addPropertyChangeListener(this);
+                            view.setModel(model);
+                            is.close();
+                        }
+                        break;
                     }
-                    break;
-                }
 
-                case "Quit": {
-                    if (Utilities.confirm("Are you sure? Unsaved changes will be lost!"))
-                        System.exit(0);
-                    break;
-                }
+                    case "New": {
+                        if (Utilities.confirm("Are you sure? Unsaved changes will be lost!")) {
+                            model.removePropertyChangeListener(this);
+                            model = factory.makeModel();
+                            model.addPropertyChangeListener(this);
+                            view.setModel(model);
+                        }
+                        break;
+                    }
 
-                case "About": {
-                    Utilities.inform(factory.about());
-                    break;
-                }
+                    case "Quit": {
+                        if (Utilities.confirm("Are you sure? Unsaved changes will be lost!"))
+                            System.exit(0);
+                        break;
+                    }
 
-                case "Help": {
-                    Utilities.inform(factory.getHelp());
-                    break;
+                    case "About": {
+                        Utilities.inform(factory.about());
+                        break;
+                    }
+
+                    case "Help": {
+                        Utilities.inform(factory.getHelp());
+                        break;
+                    }
+                    default: {
+                        throw new Exception("Unrecognized command: " + cmmd);
+                    }
                 }
-                default: {
-                    throw new Exception("Unrecognized command: " + cmmd);
-                }
+            } catch (Exception ex) {
+                Utilities.error(ex);
             }
-        } catch (Exception ex) {
-            Utilities.error(ex);
+        } else {
+            try {
+                cmdObject.execute();
+            } catch (Exception ex) {
+                Utilities.error(ex);
+            }
         }
+    }
+
+    public void display() {
+        SafeFrame frame = new SafeFrame();
+        Container cp = frame.getContentPane();
+        cp.add(this);
+        frame.setJMenuBar(this.createMenuBar());
+        frame.setTitle(factory.getTitle());
+        frame.setSize(1000, 500);
+        frame.setVisible(true);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        System.out.println("AppPanel received Property Change Event");
     }
 
-    class ControlPanel extends JPanel {
+    protected class ControlPanel extends JPanel {
         public ControlPanel() {
-            setBackground(Color.PINK);
-            //Container Panels
-            JPanel northPanel = new JPanel();
-            JPanel southPanel = new JPanel();
-            JPanel headings = new JPanel();
-            JPanel drawing = new JPanel();
-            JPanel textField = new JPanel();
-            //Actual Buttons
-            JButton north = new JButton("North");
-            JButton west = new JButton("West");
-            JButton east = new JButton("East");
-            JButton south = new JButton("South");
-            JButton clear = new JButton("Clear");
-            JButton pen = new JButton("Pen");
-            JButton color = new JButton("Color");
-
-            JLabel stepsLabel = new JLabel("# steps:");
-            JTextField steps = new JTextField("10");
-            steps.setPreferredSize(new Dimension(100, 20));
-
-            //event listeners
-            north.addActionListener(AppPanel.this);
-            east.addActionListener(AppPanel.this);
-            west.addActionListener(AppPanel.this);
-            south.addActionListener(AppPanel.this);
-            clear.addActionListener(AppPanel.this);
-            pen.addActionListener(AppPanel.this);
-            color.addActionListener(AppPanel.this);
-
-            steps.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    int steps;
-                    try {
-                        steps = Integer.parseInt(e.getActionCommand());
-                        if (steps < 0) {
-                            steps = 0;
-                            stepError();
-                        } else {
-                            turtle.moveTurtle(steps);
-                            System.out.println(steps);
-                        }
-                    } catch (Exception error) {
-                        stepError();
-                    }
-                }
-            });
-            //Compose panels
-            northPanel.add(north);
-            headings.add(west);
-            headings.add(east);
-            southPanel.add(south);
-
-            drawing.add(clear);
-            drawing.add(pen);
-            drawing.add(color);
-
-            textField.add(stepsLabel);
-            textField.add(steps);
-            //Add panels
-            add(northPanel);
-            add(headings);
-            add(southPanel);
-            add(drawing);
-            add(textField);
+            this.setBackground(Color.PINK);
         }
-    }
-
-    public static void main(String[] args) {
-        AppPanel app = new AppPanel();
     }
 }

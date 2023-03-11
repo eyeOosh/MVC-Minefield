@@ -14,4 +14,12 @@ public class Model extends Bean {
     public void setFileName(String s) {
         fileName = s;
     }
+
+    public boolean getUnsavedChanges() {
+        return unsavedChanges;
+    }
+
+    public void setUnsavedChanges(boolean b) {
+        unsavedChanges = b;
+    }
 }
