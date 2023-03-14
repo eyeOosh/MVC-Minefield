@@ -1,5 +1,5 @@
+//100% of this class was written by Danny Matlob
 package mvc;
-
 public interface AppFactory {
     public Model makeModel();
     public View makeView(Model m);

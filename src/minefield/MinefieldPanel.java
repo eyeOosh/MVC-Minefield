@@ -1,20 +1,19 @@
+//Class Written 100% by Hasnain Mucklai
 package minefield;
 
 import javax.swing.*;
 import java.awt.*;
 import mvc.*;
 
-public class MinefieldPanel extends appPanel {
-    private static final long serialVersionUID = 1L;
-    private Jbutton NW;
-    private Jbutton N;
-    private Jbutton NE;
-    private Jbutton W;
-    private Jbutton E;
-    private Jbutton SW;
-    private Jbutton S;
-    private Jbutton SE;
-
+public class MinefieldPanel extends AppPanel {
+    private JButton NW;
+    private JButton N;
+    private JButton NE;
+    private JButton W;
+    private JButton E;
+    private JButton SW;
+    private JButton S;
+    private JButton SE;
 
     public MinefieldPanel(AppFactory factory) {
 
@@ -57,5 +56,3 @@ public class MinefieldPanel extends appPanel {
         AppPanel panel = new MinefieldPanel(factory);
         panel.display();
     }
-    //
-}
