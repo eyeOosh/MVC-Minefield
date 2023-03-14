@@ -57,4 +57,5 @@ public class MinefieldPanel extends appPanel {
         AppPanel panel = new MinefieldPanel(factory);
         panel.display();
     }
+    //
 }

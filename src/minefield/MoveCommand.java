@@ -30,6 +30,6 @@ public class MoveCommand extends Command {
         int y_change = directions[directionCode -1][1];
 
         model.change(x_change, y_change);
-
+        //
     }
 }
