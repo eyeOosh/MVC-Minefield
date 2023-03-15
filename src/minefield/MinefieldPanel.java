@@ -16,6 +16,7 @@ public class MinefieldPanel extends AppPanel {
     private JButton SE;
 
     public MinefieldPanel(AppFactory factory) {
+
         super(factory);
         NW = new JButton("NW");
         NW.addActionListener(this);
@@ -55,4 +56,3 @@ public class MinefieldPanel extends AppPanel {
         AppPanel panel = new MinefieldPanel(factory);
         panel.display();
     }
-}
