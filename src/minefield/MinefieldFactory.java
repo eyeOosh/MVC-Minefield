@@ -1,4 +1,5 @@
 package minefield;
+//
 
 public class MinefieldFactory {
 
@@ -15,7 +16,7 @@ public class MinefieldFactory {
     }
 
     public String[] getHelp() {
-        return new String[] { "Click on a button to move in that direction." };
+        return new String[]{"Click on a button to move in that direction."};
     }
 
     public String about() {
@@ -23,7 +24,7 @@ public class MinefieldFactory {
     }
 
     public String[] getEditCommands() {
-        return new String[] { "North", "South", "East", "West", "NorthEast", "NorthWest", "SouthEast", "SouthWest" };
+        return new String[]{"North", "South", "East", "West", "NorthEast", "NorthWest", "SouthEast", "SouthWest"};
     }
 
     public Command makeEditCommand(Model model, String name, Object source) {
@@ -43,6 +44,5 @@ public class MinefieldFactory {
             return new MoveCommand(model);
         else if (name == "SouthWest")
             return new MoveCommand(model);
-        return null;
     }
 }
