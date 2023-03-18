@@ -26,10 +26,14 @@ public class MineSquare {
 
     //private JLabel text;
 
+    private boolean goal;
+    private int numMinesAround;
+
     public MineSquare() {
         isMined = false;
         random = new Random();
         hasMine = (random.nextDouble(0, 1) < 0.2);
+        goal = false;
 
         //mine = new Rectangle2D.Double(x, y, w, h);
         //numMines = "?";
@@ -72,4 +76,19 @@ public class MineSquare {
 
     }
 
+    public boolean isGoal() {
+        return goal;
+    }
+
+    public void setGoal() {
+        goal = true;
+    }
+
+    public int getNumMinesAround() {
+        return numMinesAround;
+    }
+
+    public void setNumMinesAround(int numMinesAround) {
+        this.numMinesAround = numMinesAround;
+    }
 }
