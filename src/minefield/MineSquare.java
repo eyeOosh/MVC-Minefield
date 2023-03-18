@@ -3,6 +3,7 @@ package minefield;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 public class MineSquare {
     // width and height
@@ -12,25 +13,27 @@ public class MineSquare {
 
     // if it is mined
     // if it has a mine at this square
-    boolean isMined, hasMine;
+    private boolean isMined, hasMine;
 
-    private Rectangle2D.Double mine;
+    //private Rectangle2D.Double mine;
 
     // number of adjacent mines
-    private char numMines;
+    private String numMines;
 
-    private JTextArea text;
+    private boolean occupied;
 
-    public MineSquare(int x, int y, int w, int h, boolean isMined, boolean hasMine) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.isMined = isMined;
-        this.hasMine = hasMine;
-        mine = new Rectangle2D.Double(x, y, w, h);
-        numMines = '?';
-        text = new JTextArea(String.valueOf(numMines));
+    private Random random;
+
+    //private JLabel text;
+
+    public MineSquare() {
+        isMined = false;
+        random = new Random();
+        hasMine = (random.nextDouble(0, 1) < 0.2);
+
+        //mine = new Rectangle2D.Double(x, y, w, h);
+        //numMines = "?";
+        //text = new JLabel(numMines);
     }
 
     public int getX() {
@@ -61,15 +64,12 @@ public class MineSquare {
         return hasMine;
     }
 
-    public char getNumMines() {
-        return numMines;
+    public boolean isOccupied() {
+        return occupied;
     }
 
     public void draw(Graphics2D gc) {
-        Color oldColor = gc.getColor();
-        gc.setColor(Color.GRAY);
-        gc.draw(mine);
-        gc.draw();
+
     }
 
 }

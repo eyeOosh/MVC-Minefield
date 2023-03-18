@@ -1,4 +1,6 @@
 package minefield;
 
-public class Minefield {
+import mvc.Model;
+
+public class Minefield extends Model {
 }
