@@ -11,33 +11,35 @@ public class MineFieldView extends View {
     Minefield m;
     private int dim, row, col;
     private Cell cells[][];
-    public MineFieldView(Minefield m, int dimension, int row, int col) {
+    public MineFieldView(Minefield m) {
         super(m);
         this.m = m;
-        dim = dimension;
-        cells = new Cell[row][col];
+        dim = m.getDim();
+        cells = new Cell[dim][dim];
+        setLayout(new GridLayout(dim, dim));
+
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                MineSquare square = m.getSq(row, col);
+                cells[row][col] = new Cell(square);
+                cells[row][col].setText("?");
+                //cells[r][c].sq = m.getSq(r, c);
+                cells[row][col].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                if (cells[row][col].sq.isOccupied()) {
+                    cells[row][col].setBackground(Color.RED);
+                    cells[row][col].setBorder(BorderFactory.createLineBorder(Color.WHITE));
+                    cells[row][col].setText("" + cells[row][col].sq.getNumMinesAround());
+                }
+                if (cells[row][col].sq.isGoal()) {
+                    cells[row][col].setBackground(Color.GREEN);
+                    cells[row][col].setBorder(BorderFactory.createLineBorder(Color.WHITE));
+                }
+                this.add(cells[row][col]);
+            }
+        }
     }
 
     public void draw(Graphics2D gc) {
-        setLayout(new GridLayout(dim, dim));
-        for (int r = 0; r < dim; r++) {
-            for (int c = 0; c < dim; c++) {
-                cells[r][c] = new Cell();
-                cells[r][c].setText("?");
-                //cells[r][c].sq = m.getSq(r, c);
-                cells[r][c].setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                if (cells[r][c].sq.isOccupied()) {
-                    cells[r][c].setBackground(Color.RED);
-                    cells[r][c].setBorder(BorderFactory.createLineBorder(Color.WHITE));
-                    cells[r][c].setText("" + cells[r][c].sq.getNumMinesAround());
-                }
-                if (cells[r][c].sq.isGoal()) {
-                    cells[r][c].setBackground(Color.GREEN);
-                    cells[r][c].setBorder(BorderFactory.createLineBorder(Color.WHITE));
-                }
-                this.add(cells[r][c]);
-            }
-        }
 
     }
 }
