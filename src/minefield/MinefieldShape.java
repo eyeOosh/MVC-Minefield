@@ -8,6 +8,6 @@ public class MinefieldShape {
 
     private int height, width, x, y;
 
-    private Rectangle2D.Double
+    //private Rectangle2D.Double
 
 }
