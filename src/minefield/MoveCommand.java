@@ -1,35 +1,58 @@
+//50% Danny Matlob 50% Hasain Mucklai
 package minefield;
 import mvc.*;
 
 public class MoveCommand extends Command {
+    Heading heading;
 
-    /**
-     * NORTH, WEST, EAST, SOUTH
-     * NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST
-     */
-    public static int [][] directions = {
-            {-1,0}, {0,-1}, {0,1}, {1,0},
-            {-1,-1}, {-1,1}, {1,-1}, {1,1}
-    };
-
-    private int directionCode;
-
-    public MineField model;
-    public MoveCommand(Model model) {
+    public MoveCommand(Model model, Heading h) {
         super(model);
+        heading = h;
     }
-
-    public MoveCommand(Model model, int direction){
-        super(model);
-        this.model = (MineField) model;
-        directionCode = direction;
-    }
-
     public void execute() {
-        int x_change = directions[directionCode -1][0];
-        int y_change = directions[directionCode -1][1];
-
-        model.change(x_change, y_change);
-        //
+        Minefield mineModel = (Minefield) model;
+        try {
+            System.out.println(heading);
+            switch (heading) {
+                //File Functions
+                case NORTH: {
+                    mineModel.movePlayer(0, -1);
+                    break;
+                }
+                case SOUTH: {
+                    mineModel.movePlayer(0, 1);
+                    break;
+                }
+                case EAST: {
+                    mineModel.movePlayer(1, 0);
+                    break;
+                }
+                case WEST: {
+                    mineModel.movePlayer(-1, 0);
+                    break;
+                }
+                case NORTHEAST: {
+                    mineModel.movePlayer(1, -1);
+                    break;
+                }
+                case NORTHWEST: {
+                    mineModel.movePlayer(-1, -1);
+                    break;
+                }
+                case SOUTHEAST: {
+                    mineModel.movePlayer(1, 1);
+                    break;
+                }
+                case SOUTHWEST: {
+                    mineModel.movePlayer(-1, 1);
+                    break;
+                }
+                default: {
+                    System.out.println("Invalid Heading Error");
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
