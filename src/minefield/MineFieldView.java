@@ -8,10 +8,10 @@ import java.awt.*;
 
 public class MineFieldView extends View {
 
-    Model m;
+    Minefield m;
     private int dim, row, col;
     private Cell cells[][];
-    public MineFieldView(Model m, int dimension, int row, int col) {
+    public MineFieldView(Minefield m, int dimension, int row, int col) {
         super(m);
         this.m = m;
         dim = dimension;
