@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class MineSquare {
     // width and height
-    int w, h;
+    //int w, h;
 
     int x, y;
 
@@ -20,7 +20,7 @@ public class MineSquare {
     // number of adjacent mines
     private String numMines;
 
-    private boolean occupied;
+    private boolean occupied, revealed;
 
     private Random random;
 
@@ -34,6 +34,7 @@ public class MineSquare {
         random = new Random();
         hasMine = (random.nextDouble(0, 1) < 0.2);
         goal = false;
+        revealed = false;
 
         //mine = new Rectangle2D.Double(x, y, w, h);
         //numMines = "?";
@@ -48,14 +49,6 @@ public class MineSquare {
         return y;
     }
 
-    public double getW() {
-        return w;
-    }
-
-    public double getH() {
-        return h;
-    }
-
     public boolean isMined() {
         return isMined;
     }
@@ -64,12 +57,24 @@ public class MineSquare {
         isMined = mined;
     }
 
+    public boolean isRevealed() {
+        return revealed;
+    }
+
+    public void setRevealed(boolean revealed) {
+        this.revealed = revealed;
+    }
+
     public boolean hasMine() {
         return hasMine;
     }
 
     public boolean isOccupied() {
         return occupied;
+    }
+
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
     }
 
     public void draw(Graphics2D gc) {
