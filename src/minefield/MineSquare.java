@@ -20,7 +20,7 @@ public class MineSquare {
     // number of adjacent mines
     private String numMines;
 
-    private boolean occupied, revealed;
+    private boolean occupied;
 
     private Random random;
 
@@ -34,7 +34,7 @@ public class MineSquare {
         random = new Random();
         hasMine = (random.nextDouble(0, 1) < 0.2);
         goal = false;
-        revealed = false;
+        //revealed = false;
 
         //mine = new Rectangle2D.Double(x, y, w, h);
         //numMines = "?";
@@ -53,16 +53,9 @@ public class MineSquare {
         return isMined;
     }
 
+    // revealed
     public void setMined(boolean mined) {
         isMined = mined;
-    }
-
-    public boolean isRevealed() {
-        return revealed;
-    }
-
-    public void setRevealed(boolean revealed) {
-        this.revealed = revealed;
     }
 
     public boolean hasMine() {
@@ -77,8 +70,8 @@ public class MineSquare {
         this.occupied = occupied;
     }
 
-    public void draw(Graphics2D gc) {
-
+    public void setHasMine(boolean hasMine) {
+        this.hasMine = hasMine;
     }
 
     public boolean isGoal() {
