@@ -1,5 +1,3 @@
-//100% of this class was written by Danny Matlob
-
 package mvc;
 
 import javax.swing.*;

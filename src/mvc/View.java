@@ -3,7 +3,7 @@ package mvc;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-//100% of this class was written by Danny Matlob
+
 public class View extends JPanel implements PropertyChangeListener {
     protected Model model;
     public View(Model m) {

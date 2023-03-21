@@ -1,5 +1,5 @@
-//100% of this class was written by Danny Matlob
 package mvc;
+
 public class Model extends Bean {
     boolean unsavedChanges = false;
     public String fileName = null;
