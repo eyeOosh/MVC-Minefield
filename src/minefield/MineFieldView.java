@@ -36,20 +36,57 @@ public class MineFieldView extends View {
                     cells[row][col].setBorder(BorderFactory.createLineBorder(Color.WHITE));
                 }
                 this.add(cells[row][col]);
+
+                /*
+                square.addPropertyChangeListener(evt -> {
+                    if (evt.getPropertyName().equals("mined")) {
+                        // Fire property change event when mines change
+                        firePropertyChange("minesChanged", false, true);
+                    }
+                });
+
+                 */
             }
+
+            m.addPropertyChangeListener(evt -> {
+                if (evt.getPropertyName().equals("mined")) {
+                    repaint();
+                }
+            });
         }
 
         //Command makeEditCommand
     }
 
-    public void draw(Graphics2D gc) {
+    public void paintComponent(Graphics2D gc) {
+        super.paintComponent(gc);
+        Color oldColor = gc.getColor();
+        Minefield minefield = (Minefield)model;
+        gc.setColor(oldColor);
+
+        /*
+        int cellSize = 20;
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
                 if (cells[i][j].getSq().isMined()) {
-                    cells[i][j].setText("" + cells[i][j].getSq().getNumMinesAround());
-
+                    //firePropertyChange("mined", !cells[i][j].getSq().isMined(), cells[i][j].getSq().isMined());
+                    cells[i][j].setText(""+cells[i][j].getSq().getNumMinesAround());
+                    System.out.println(""+cells[i][j].getSq().getNumMinesAround());
+                    Cell cell = cells[i][j];
+                    gc.setColor(Color.GRAY);
+                    gc.fillRect(m.getPlayerX() * cellSize, m.getPlayerY() * cellSize, cellSize, cellSize);
+                    gc.setColor(Color.BLACK);
+                    gc.drawRect(m.getPlayerX() * cellSize, m.getPlayerY() * cellSize, cellSize, cellSize);
                 }
             }
         }
+
+        this.propertyChange();
+
+        gc.setColor(Color.GREEN);
+        gc.fillRect(m.getPlayerX() * cellSize, m.getPlayerY() * cellSize, cellSize, cellSize);
+
+         */
+
     }
 }

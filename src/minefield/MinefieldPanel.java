@@ -14,11 +14,15 @@ public class MinefieldPanel extends AppPanel {
     private JButton SW;
     private JButton S;
     private JButton SE;
+    //private MineField minefield;
 
 
     public MinefieldPanel(AppFactory factory) {
 
         super(factory);
+
+        //minefield = (Minefield) model;
+
         NW = new JButton("NW");
         NW.addActionListener(this);
         cp.add(NW);

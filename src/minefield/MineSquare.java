@@ -3,6 +3,7 @@ package minefield;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeSupport;
 import java.util.Random;
 
 public class MineSquare {
@@ -28,13 +29,14 @@ public class MineSquare {
 
     private boolean goal;
     private int numMinesAround;
-
+    private PropertyChangeSupport pcs;
     public MineSquare() {
         isMined = false;
         random = new Random();
         hasMine = (random.nextDouble(0, 1) < 0.2);
         goal = false;
         revealed = false;
+        pcs = new PropertyChangeSupport(this);
 
         //mine = new Rectangle2D.Double(x, y, w, h);
         //numMines = "?";
@@ -54,7 +56,9 @@ public class MineSquare {
     }
 
     public void setMined(boolean mined) {
+        boolean oldValue = isMined;
         isMined = mined;
+        pcs.firePropertyChange("mined", oldValue, mined);
     }
 
     /*
