@@ -51,7 +51,7 @@ public class MoveCommand extends Command {
                     System.out.println("Invalid Heading Error");
                 }
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

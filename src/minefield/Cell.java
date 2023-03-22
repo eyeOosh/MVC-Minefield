@@ -10,4 +10,8 @@ public class Cell extends JLabel {
         this.sq = sq;
     }
 
+    public MineSquare getSq() {
+        return sq;
+    }
+
 }

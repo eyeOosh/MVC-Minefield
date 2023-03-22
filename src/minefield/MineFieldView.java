@@ -5,6 +5,7 @@ import mvc.View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
 
 public class MineFieldView extends View {
 
@@ -37,9 +38,18 @@ public class MineFieldView extends View {
                 this.add(cells[row][col]);
             }
         }
+
+        //Command makeEditCommand
     }
 
     public void draw(Graphics2D gc) {
+        for (int i = 0; i < dim; i++) {
+            for (int j = 0; j < dim; j++) {
+                if (cells[i][j].getSq().isMined()) {
+                    //cells[i][j].setText("" + cells[i][j].getSq().getNumMinesAround());
 
+                }
+            }
+        }
     }
 }

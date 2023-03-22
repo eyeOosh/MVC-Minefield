@@ -44,8 +44,14 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmmd = e.getActionCommand();
+        System.out.println(cmmd);
         System.out.println("AppPanel Received Command: " + cmmd);
-        Command cmdObject = factory.makeEditCommand(model, cmmd, null);
+        Command cmdObject = null;
+        try {
+            cmdObject = factory.makeEditCommand(model, cmmd, null);
+        } catch (Exception ex) {
+            Utilities.error(ex);
+        }
         if (cmdObject == null) {
             try {
                 switch (cmmd) {

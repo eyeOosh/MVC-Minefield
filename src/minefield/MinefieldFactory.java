@@ -38,22 +38,24 @@ public class MinefieldFactory implements AppFactory {
     }
 
     @Override
-    public Command makeEditCommand(Model model, String name, Object source) {
-        if (name == "North")
+    public Command makeEditCommand(Model model, String name, Object source) throws Exception {
+        if (name == "N")
             return new MoveCommand(model, Heading.NORTH);
-        else if (name == "South")
+        else if (name == "S")
             return new MoveCommand(model, Heading.SOUTH);
-        else if (name == "East")
+        else if (name == "E")
             return new MoveCommand(model, Heading.EAST);
-        else if (name == "West")
+        else if (name == "W")
             return new MoveCommand(model, Heading.WEST);
-        else if (name == "NorthEast")
+        else if (name == "NE")
             return new MoveCommand(model, Heading.NORTHEAST);
-        else if (name == "NorthWest")
+        else if (name == "NW")
             return new MoveCommand(model, Heading.NORTHWEST);
-        else if (name == "SouthEast")
+        else if (name == "SE")
             return new MoveCommand(model, Heading.SOUTHEAST);
-        else
+        else if (name == "SW")
             return new MoveCommand(model, Heading.SOUTHWEST);
+        else
+            throw new Exception();
     }
 }

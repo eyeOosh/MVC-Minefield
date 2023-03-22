@@ -2,6 +2,9 @@ package minefield;
 
 import mvc.Model;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 public class Minefield extends Model {
 
     // 2d array of patches/squares
@@ -14,11 +17,17 @@ public class Minefield extends Model {
     public Minefield(int dim) {
         // dimensions
         sq = new MineSquare[dim][dim];
+
+        for (int i = 0; i < dim; i++) {
+            for (int j = 0; j < dim; j++) {
+                sq[i][j] = new MineSquare();
+            }
+        }
         this.dim = dim;
         // sets adjacent mines
         setAdjMines();
         // sets goal mine to be bottom right
-        sq[dim][dim].setGoal();
+        sq[dim-1][dim-1].setGoal();
 
         // initializes player x and y to 0
         pX = 0;
@@ -39,7 +48,7 @@ public class Minefield extends Model {
 
     private void setAdjMines () {
         for (int i = 0; i < sq.length; i ++) {
-            for (int j = 0; j < sq[j].length; j++) {
+            for (int j = 0; j < sq[i].length; j++) {
                 if (sq[i][j].hasMine()) {
                     continue;
                 }
@@ -74,22 +83,35 @@ public class Minefield extends Model {
     }
 
     // add methods here
-    public void movePlayer(int moveX, int moveY) throws Exception{
+    public void movePlayer(int moveX, int moveY) throws Exception {
         int newX = pX + moveX;
         int newY = pY+ moveY;
 
-        MineSquare newSq = sq[newX][newY];
-        newSq.setMined(true);
-        if (newSq.hasMine()) {
-            throw new Exception("Mine blown! Game End!");
-        }
-
-        if (newX < 0 || newY < 0 || newX > dim || newY > dim) {
+        if (newX < 0 || newY < 0 || newX >= dim || newY >= dim) {
+            //this.firePropertyChange();
             throw new Exception("Out of bounds! Game End!");
         }
 
+        if (sq[newX][newY].hasMine()) {
+            throw new Exception("Mine blown! Game End!");
+        }
+
+        /*
+        addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+
+            }
+        });
+         */
+        MineSquare newSq = sq[newX][newY];
+        newSq.setMined(true);
+
         pX = newX;
         pY = newY;
+
+
+        //firePropertyChange();
     }
 
 
