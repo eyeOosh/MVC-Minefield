@@ -69,7 +69,6 @@ public class MineSquare {
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
-    
 
     public boolean isGoal() {
         return goal;

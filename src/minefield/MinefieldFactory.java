@@ -1,43 +1,59 @@
 package minefield;
+//
 
 import mvc.AppFactory;
-import mvc.Command;
-import mvc.Model;
-import mvc.View;
+import mvc.*;
+
 
 public class MinefieldFactory implements AppFactory {
+
     @Override
     public Model makeModel() {
-        return null;
+        return new Minefield(20);
     }
 
     @Override
     public View makeView(Model m) {
-        return null;
+        return new MineFieldView((Minefield) m);
     }
 
     @Override
     public String getTitle() {
-        return null;
+        return "Minefield Project Team 4";
     }
 
     @Override
     public String[] getHelp() {
-        return new String[0];
+        return new String[]{"Click on a button to move in that direction."};
     }
 
     @Override
     public String about() {
-        return null;
+        return "CS151 Minefield Project Team 4";
     }
 
     @Override
     public String[] getEditCommands() {
-        return new String[0];
+        return new String[]{"North", "South", "East", "West", "NorthEast", "NorthWest", "SouthEast", "SouthWest"};
     }
 
     @Override
-    public Command makeEditCommand(Model m, String name, Object source) {
-        return null;
+    public Command makeEditCommand(Model model, String name, Object source) {
+        if (name == "North")
+            return new MoveCommand(model, Heading.NORTH);
+        else if (name == "South")
+            return new MoveCommand(model, Heading.SOUTH);
+        else if (name == "East")
+            return new MoveCommand(model, Heading.EAST);
+        else if (name == "West")
+            return new MoveCommand(model, Heading.WEST);
+        else if (name == "NorthEast")
+            return new MoveCommand(model, Heading.NORTHEAST);
+        else if (name == "NorthWest")
+            return new MoveCommand(model, Heading.NORTHWEST);
+        else if (name == "SouthEast")
+            return new MoveCommand(model, Heading.SOUTHEAST);
+        else
+            return new MoveCommand(model, Heading.SOUTHWEST);
     }
 }
