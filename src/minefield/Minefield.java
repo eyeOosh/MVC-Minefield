@@ -9,6 +9,7 @@ public class Minefield extends Model {
 
     // pX = player X, pY = player Y
     private int dim, pX, pY;
+    int width, height;
 
     public Minefield(int dim) {
         // dimensions
@@ -57,13 +58,40 @@ public class Minefield extends Model {
                     }
                 }
 
+                // set the num of mines around to count
                 sq[i][j].setNumMinesAround(count);
             }
         }
 
     }
 
+    public int getPlayerX() {
+        return pX;
+    }
+
+    public int getPlayerY() {
+        return pY;
+    }
+
     // add methods here
+    public void movePlayer(int moveX, int moveY) throws Exception{
+        int newX = pX + moveX;
+        int newY = pY+ moveY;
+
+        MineSquare newSq = sq[newX][newY];
+        newSq.setMined(true);
+        if (newSq.hasMine()) {
+            throw new Exception("Mine blown! Game End!");
+        }
+
+        if (newX < 0 || newY < 0 || newX > dim || newY > dim) {
+            throw new Exception("Out of bounds! Game End!");
+        }
+
+        pX = newX;
+        pY = newY;
+    }
+
 
 
 }

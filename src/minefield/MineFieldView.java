@@ -8,15 +8,16 @@ import java.awt.*;
 
 public class MineFieldView extends View {
 
-    Minefield m;
-    private int dim, row, col;
+    Minefield minefield;
+    private int dim, cellSize;
     private Cell cells[][];
     public MineFieldView(Minefield m) {
         super(m);
-        this.m = m;
+        this.minefield = m;
         dim = m.getDim();
         cells = new Cell[dim][dim];
         setLayout(new GridLayout(dim, dim));
+        cellSize = 40;
 
         for (int row = 0; row < dim; row++) {
             for (int col = 0; col < dim; col++) {
@@ -40,6 +41,17 @@ public class MineFieldView extends View {
     }
 
     public void draw(Graphics2D gc) {
-
+        for (int y = 0; y < minefield.getDim(); y++) {
+            for (int x = 0; x < minefield.getDim(); x++) {
+                Cell cell = cells[x][y];
+                gc.setColor(Color.GRAY);
+                gc.fillRect(x * dim, y * cellSize, cellSize, cellSize);
+                gc.setColor(Color.BLACK);
+                gc.drawRect(x * cellSize, y * cellSize, cellSize, cellSize);
+            }
+        }
+        // Draw the player
+        gc.setColor(Color.GREEN);
+        gc.fillRect(minefield.getPlayerX() * cellSize, minefield.getPlayerY() * cellSize, cellSize, cellSize);
     }
 }
