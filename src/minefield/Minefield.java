@@ -104,12 +104,15 @@ public class Minefield extends Model {
             }
         });
          */
+        sq[pX][pY].setOccupied(false);
         MineSquare newSq = sq[newX][newY];
         newSq.setMined(true);
+        newSq.setOccupied(true);
 
         pX = newX;
         pY = newY;
 
+        firePropertyChange("mined", !newSq.isMined(), newSq.isMined());
 
         //firePropertyChange();
     }

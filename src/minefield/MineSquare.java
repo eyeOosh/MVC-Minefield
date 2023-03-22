@@ -57,13 +57,16 @@ public class MineSquare {
         isMined = mined;
     }
 
+    /*
     public boolean isRevealed() {
         return revealed;
     }
 
-    public void setRevealed(boolean revealed) {
+    //public void setRevealed(boolean revealed) {
         this.revealed = revealed;
     }
+
+     */
 
     public boolean hasMine() {
         return hasMine;
@@ -84,7 +87,9 @@ public class MineSquare {
 
 
     public void draw(Graphics2D gc) {
+        if (isMined) {
 
+        }
     }
 
     public boolean isGoal() {

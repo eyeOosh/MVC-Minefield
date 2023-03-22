@@ -46,7 +46,7 @@ public class MineFieldView extends View {
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
                 if (cells[i][j].getSq().isMined()) {
-                    //cells[i][j].setText("" + cells[i][j].getSq().getNumMinesAround());
+                    cells[i][j].setText("" + cells[i][j].getSq().getNumMinesAround());
 
                 }
             }
