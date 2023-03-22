@@ -4,16 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import mvc.*;
 
-public class MinefieldPanel extends appPanel {
+public class MinefieldPanel extends AppPanel {
     private static final long serialVersionUID = 1L;
-    private Jbutton NW;
-    private Jbutton N;
-    private Jbutton NE;
-    private Jbutton W;
-    private Jbutton E;
-    private Jbutton SW;
-    private Jbutton S;
-    private Jbutton SE;
+    private JButton NW;
+    private JButton N;
+    private JButton NE;
+    private JButton W;
+    private JButton E;
+    private JButton SW;
+    private JButton S;
+    private JButton SE;
 
 
     public MinefieldPanel(AppFactory factory) {
