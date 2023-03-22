@@ -77,6 +77,10 @@ public class MineSquare {
         this.occupied = occupied;
     }
 
+    public void setHasMine(boolean b) {
+        hasMine = b;
+    }
+
     public void draw(Graphics2D gc) {
 
     }

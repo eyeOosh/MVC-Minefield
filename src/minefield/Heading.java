@@ -4,5 +4,9 @@ public enum Heading {
     NORTH,
     SOUTH,
     EAST,
-    WEST;
+    WEST,
+    SOUTHWEST,
+    SOUTHEAST,
+    NORTHWEST,
+    NORTHEAST;
 }
